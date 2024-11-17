@@ -1,13 +1,27 @@
-import { cardComponent } from "./components/cardComponent";
-import { cardImage } from "./components/cardImage";
-import { usersData } from "./components/usersData";
-import { usersActions } from "./components/userActions";
+/* helper functions */
+import { fetchUsers } from "./utils/fetchData";
 
 import "./style.css";
+import { handleData } from "./utils/handleData";
+import { modalComp } from "./components/modalComp";
 
-const imageOne = cardComponent();
-imageOne.appendChild(cardImage());
-imageOne.appendChild(usersData());
-imageOne.appendChild(usersActions());
+export async function init() {
+  app.innerText = "loading ...";
+  const usersArray = await fetchUsers();
 
-app.appendChild(imageOne);
+  if (!usersArray.length) {
+    app.innerText = "Something went very very wrong ... " + usersArray;
+    const img = new Image();
+    img.classList.add("error-img");
+    img.src = "./assets/offline.jpg";
+    app.appendChild(img);
+    return;
+  }
+
+  // check if this is not an empty array
+  if (usersArray.length) handleData(usersArray);
+
+  app.appendChild(modalComp());
+}
+
+init();

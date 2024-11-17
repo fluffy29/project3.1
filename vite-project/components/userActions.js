@@ -2,14 +2,16 @@ import "./userActions.css";
 import { actionButton } from "./actionButton ";
 import edit from "../assets/edit.svg";
 import trash from "../assets/trash.svg";
-import { usersActions } from "./userActions";
+import { formComp } from "./formComp";
+import { deleteUser } from "../utils/deleteUser";
+import { init } from "../main";
 
 export const usersActions = () => {
   const actionsContainer = document.createElement("div");
   actionsContainer.classList.add("actions-container");
 
-  const buttonOne = actionButton(edit, "warning-btn");
-  const buttonTwo = actionButton(trash, "danger-btn");
+  const buttonOne = actionButton(edit, "warning-btn", buttonOneFn);
+  const buttonTwo = actionButton(trash, "danger-btn", buttonTwoFn);
 
   actionsContainer.appendChild(buttonOne);
   actionsContainer.appendChild(buttonTwo);
@@ -17,10 +19,12 @@ export const usersActions = () => {
   return actionsContainer;
 };
 
-function buttonOneFn() {
-  console.log("you clicked the first button !!!");
+function buttonOneFn(e) {
+  const selectedCard = e.target.parentElement.parentElement;
+  const userId = selectedCard.getAttribute("userId");
 }
 
-function buttonTwoFn() {
-  console.log("you clicked the second button !!!");
+function buttonTwoFn(e) {
+  const selectedCard = e.target.parentElement.parentElement;
+  const userId = selectedCard.getAttribute("userId");
 }
