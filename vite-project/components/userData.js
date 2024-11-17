@@ -1,3 +1,5 @@
+import "./userData.css";
+
 export const usersData = () => {
   const dataContainer = document.createElement("div");
   dataContainer.classList.add("data-container");
