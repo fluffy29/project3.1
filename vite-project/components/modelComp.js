@@ -1,54 +1,45 @@
-import "./userActions.css";
-import { actionButton } from "./actionButton ";
-import edit from "../assets/edit.svg";
-import trash from "../assets/trash.svg";
-import { formComp } from "./formComp";
-import { deleteUser } from "../utils/deleteUser";
-import { init } from "../main";
+import "./modalComp.css";
 
-export const usersActions = () => {
-  const actionsContainer = document.createElement("div");
-  actionsContainer.classList.add("actions-container");
-
-  const buttonOne = actionButton(edit, "warning-btn", buttonOneFn);
-  const buttonTwo = actionButton(trash, "danger-btn", buttonTwoFn);
-
-  actionsContainer.appendChild(buttonOne);
-  actionsContainer.appendChild(buttonTwo);
-
-  return actionsContainer;
-};
-
-function buttonOneFn(e) {
-  const selectedCard = e.target.parentElement.parentElement;
-  const userId = selectedCard.getAttribute("userId");
-  const firstName = selectedCard.getAttribute("firstName");
-  const lastName = selectedCard.getAttribute("lastName");
-  document.querySelector(".modal-overlay").classList.toggle("show");
-  document.querySelector(".modal-container").innerHTML = "";
-  document.querySelector(".modal-title").innerText = "Edit user";
-  document
-    .querySelector(".modal-container")
-    .appendChild(formComp(firstName, lastName, userId));
-}
-
-function buttonTwoFn(e) {
-  const selectedCard = e.target.parentElement.parentElement;
-  const userId = selectedCard.getAttribute("userId");
-  document.querySelector(".modal-overlay").classList.toggle("show");
-  document.querySelector(".modal-container").innerHTML = "";
-  document.querySelector(".modal-title").innerText = "Warning !";
-  document.querySelector(".modal-container").innerText =
-    "Confirm delete user? You sure ?";
-
-  const confirmBtn = document.createElement("button");
-  confirmBtn.style.backgroundColor = "#d5384f";
-  confirmBtn.innerText = "Confirm";
-  confirmBtn.addEventListener("click", async () => {
-    const response = await deleteUser(userId);
-    if (response.message === "User deleted !") {
-      init();
+export const modalComp = () => {
+  const modalOverLay = document.createElement("div");
+  modalOverLay.classList.add("modal-overlay");
+  modalOverLay.addEventListener("click", (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      modalOverLay.classList.remove("show");
     }
   });
-  document.querySelector(".modal-container").appendChild(confirmBtn);
-}
+  // modalOverLay.classList.add("show")
+
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+  modalContent.classList.add("animate-top");
+
+  const modalHeader = document.createElement("header");
+  const modalTitle = document.createElement("h2");
+  modalTitle.innerText = "Title test";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.classList.add("btn-close");
+  closeBtn.innerText = "X";
+  closeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    modalOverLay.classList.remove("show");
+  });
+
+  const modalContainer = document.createElement("div");
+  modalContainer.classList.add("modal-container");
+  modalContainer.innerText = "el test du content";
+
+  modalHeader.appendChild(closeBtn);
+  modalHeader.appendChild(modalTitle);
+  modalContent.appendChild(modalHeader);
+  modalContent.appendChild(modalContainer);
+
+  modalOverLay.appendChild(modalContent);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") return modalOverLay.classList.remove("show");
+  });
+
+  return modalOverLay;
+};

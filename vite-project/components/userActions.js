@@ -20,11 +20,13 @@ export const usersActions = () => {
 };
 
 function buttonOneFn(e) {
-  const selectedCard = e.target.parentElement.parentElement;
-  const userId = selectedCard.getAttribute("userId");
+  document.querySelector(".modal-overlay").classList.toggle("show");
+  const userId = e.target.parentElement.parentElement.getAttribute("userId");
+  console.log(userId);
 }
 
 function buttonTwoFn(e) {
-  const selectedCard = e.target.parentElement.parentElement;
-  const userId = selectedCard.getAttribute("userId");
+  document.querySelector(".modal-overlay").classList.toggle("show");
+  const userId = e.target.parentElement.parentElement.getAttribute("userId");
+  console.log(userId);
 }
